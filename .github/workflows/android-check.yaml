@@ -76,6 +76,7 @@ jobs:
           libxrandr-dev \
           libxinerama-dev \
           libxcursor-dev \
+          libxcb-xinerama0 \
           libxcb-cursor0 \
           libxi-dev \
           zlib1g-dev \
