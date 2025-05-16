@@ -74,7 +74,6 @@ jobs:
           libqt6positioning6 \
           libsqlite3-dev \
           libxrandr-dev \
-          libxinerama-dev \
           libxcursor-dev \
           libxcb-xinerama0 \
           libxcb-cursor0 \
@@ -83,6 +82,8 @@ jobs:
           optipng \
           python3-protobuf
 
+      - name: Reinstall package
+        run: sudo apt-get install --reinstall libxcb-xinerama0
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
