@@ -81,12 +81,7 @@ jobs:
           libxi-dev \
           zlib1g-dev \
           optipng \
-          '^libxcb.*-dev' \
-          libx11-xcb-dev \
-          libglu1-mesa-dev \
-          libxrender-dev \
-          libxkbcommon-dev \
-          libxkbcommon-x11-dev
+          python3-protobuf
 
       - name: Checkout sources
         uses: actions/checkout@v4
