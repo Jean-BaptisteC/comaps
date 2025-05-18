@@ -95,13 +95,12 @@ jobs:
         shell: bash
         run: git submodule update --depth 1 --init --recursive --jobs=$(($(nproc) * 20))
 
-      - name: Configure repository
-        shell: bash
-        run: ./configure.sh
-
-      - name: Generate symbols
-        shell: bash
-        run: ./tools/unix/generate_symbols.sh
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: ./Dockerfile
+            push: false
 
       - name: Configure ccache
         uses: hendrikmuhs/ccache-action@v1.2
