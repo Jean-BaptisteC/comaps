@@ -62,12 +62,7 @@ jobs:
           libqt6svg6-dev \
           optipng \
           '^libxcb.*' \
-          libx11-xcb \
           libglu1-mesa \
-          libxrender \
-          libxi \
-          libxkbcommon \
-          libxkbcommon-x11 \
           python3 \
           qt6-base-dev \
           qt6-declarative-dev \
