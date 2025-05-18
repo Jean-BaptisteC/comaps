@@ -55,37 +55,9 @@ jobs:
       - name: Install build tools and dependencies
         shell: bash
         run: | 
-          sudo apt update && sudo apt install -y \
-          build-essential \
-          clang \
-          cmake \
-          ninja-build \
-          python3 \
-          qt6-base-dev \
-          qt6-declarative-dev \
-          qt6-positioning-dev \
-          libc++-dev \
-          libfreetype-dev \
-          libglvnd-dev \
-          libgl1-mesa-dev \
-          libharfbuzz-dev \
-          libicu-dev \
-          libqt6svg6-dev \
-          libqt6positioning6-plugins \
-          libqt6positioning6 \
-          libsqlite3-dev \
-          libxrandr-dev \
-          libxcursor-dev \
-          libxcb-xinerama0 \
-          libxinerama-dev \
-          libxcb-cursor0 \
-          libxi-dev \
-          zlib1g-dev \
-          optipng \
-          python3-protobuf
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build qt6-base-dev qt6-declarative-dev libqt6svg6-dev optipng
 
-      - name: Reinstall package
-        run: sudo apt-get install --reinstall libxcb-xinerama0
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
@@ -95,12 +67,13 @@ jobs:
         shell: bash
         run: git submodule update --depth 1 --init --recursive --jobs=$(($(nproc) * 20))
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-            context: .
-            file: ./Dockerfile
-            push: false
+      - name: Configure repository
+        shell: bash
+        run: ./configure.sh
+
+      - name: Generate symbols
+        shell: bash
+        run: ./tools/unix/generate_symbols.sh
 
       - name: Configure ccache
         uses: hendrikmuhs/ccache-action@v1.2
