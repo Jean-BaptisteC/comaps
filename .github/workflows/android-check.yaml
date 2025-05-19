@@ -9,6 +9,7 @@ on:
 
 env:
   JAVA_HOME: /usr/lib/jvm/temurin-17-jdk-amd64  # Java 17 is required for Android Gradle 8 plugin
+  DISPLAY: 0
 
 jobs:
   lint:
