@@ -84,7 +84,8 @@ jobs:
           libxinerama-dev \
           libxcb-cursor0 \
           libxi-dev \
-          zlib1g-dev
+          zlib1g-dev \
+          xcb
 
       - name: Checkout sources
         uses: actions/checkout@v4
