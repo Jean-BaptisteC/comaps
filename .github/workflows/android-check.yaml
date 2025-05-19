@@ -40,6 +40,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
+          ref: 'main'
           fetch-depth: 200 # enough to get all commits for the current day
 
       - name: Parallel submodules checkout
