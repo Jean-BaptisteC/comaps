@@ -85,7 +85,8 @@ jobs:
           libxcb-cursor0 \
           libxi-dev \
           zlib1g-dev \
-          xcb
+          xcb \
+          libxkbcommon-x11-0
 
       - name: Checkout sources
         uses: actions/checkout@v4
