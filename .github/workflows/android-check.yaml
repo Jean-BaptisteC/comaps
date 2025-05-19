@@ -34,7 +34,8 @@ jobs:
           optipng \
           libfreetype-dev \
           libharfbuzz-dev \
-          libxrandr-dev
+          libxrandr-dev \
+          libxinerama-dev
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
