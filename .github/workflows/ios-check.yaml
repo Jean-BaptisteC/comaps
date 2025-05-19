@@ -36,8 +36,8 @@ jobs:
       - name: Download MWM files
         shell: bash
         run: |
-          wget https://cdn-us-1.comaps.app/maps/250511/World.mwm -P ./data/
-          wget https://cdn-us-1.comaps.app/maps/250511/WorldCoasts.mwm -P ./data/
+          wget https://cdn.comaps.app/maps/latest/World.mwm -P ./data/
+          wget https://cdn.comaps.app/maps/latest/WorldCoasts.mwm -P ./data/
 
       - name: Configure XCode cache
         uses: irgaly/xcode-cache@v1
