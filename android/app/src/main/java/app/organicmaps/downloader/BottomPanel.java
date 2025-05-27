@@ -39,7 +39,8 @@ class BottomPanel
     @Override
     public void onClick(View v)
     {
-        mFragment.getAdapter().refreshData();
+      MapManager.nativeCancel(mFragment.getCurrentRoot());
+      mFragment.getAdapter().refreshData();
     }
   };
 
