@@ -44,7 +44,7 @@ jobs:
 
       - name: Configure repository
         shell: bash
-        run: ./configure.sh --skip-map-download
+        run: ./comaps/configure.sh --skip-map-download
         
       - name: Compile ${{ matrix.flavor }}
         shell: bash
