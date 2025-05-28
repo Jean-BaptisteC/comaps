@@ -39,11 +39,8 @@ jobs:
           libxcursor-dev \
           libxi-dev \
       - name: Checkout sources
-        uses: actions/checkout@v4
-        with:
-          repository: comaps/comaps
-          ref: pastk-om-batch-02
-          fetch-depth: 200 # enough to get all commits for the current day
+        shell: bash
+        run: git clone --recurse-submodules --shallow-submodules -b fix/local-backup https://codeberg.org/lampotrias/comaps.git
 
       - name: Parallel submodules checkout
         shell: bash
