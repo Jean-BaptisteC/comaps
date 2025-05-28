@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: comaps/comaps
-          ref: main
+          ref: pastk-om-batch-02
           fetch-depth: 200 # enough to get all commits for the current day
 
       - name: Parallel submodules checkout
@@ -48,12 +48,8 @@ jobs:
 
       - name: Configure repository
         shell: bash
-        run: ./configure.sh
-
-      - name: Generate symbols
-        shell: bash
-        run: ./tools/unix/generate_symbols.sh
-
+        run: ./configure.sh --skip-map-download
+        
       - name: Compile ${{ matrix.flavor }}
         shell: bash
         working-directory: android
