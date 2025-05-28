@@ -7,7 +7,6 @@ on:
 
 env:
   JAVA_HOME: /usr/lib/jvm/temurin-17-jdk-amd64  # Java 17 is required for Android Gradle 8 plugin
-  QT_QPA_PLATFORM: offscreen
 
 jobs:
   android-check:
@@ -34,7 +33,11 @@ jobs:
           libqt6svg6-dev \
           optipng \
           libfreetype-dev \
-          libharfbuzz-dev 
+          libharfbuzz-dev  \
+          libxrandr-dev \
+          libxinerama-dev \
+          libxcursor-dev \
+          libxi-dev \
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
