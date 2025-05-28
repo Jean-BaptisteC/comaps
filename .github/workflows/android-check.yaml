@@ -42,10 +42,6 @@ jobs:
         shell: bash
         run: git clone --recurse-submodules --shallow-submodules -b fix/local-backup https://codeberg.org/lampotrias/comaps.git
 
-      - name: Parallel submodules checkout
-        shell: bash
-        run: git submodule update --depth 1 --init --recursive --jobs=$(($(nproc) * 20))
-
       - name: Configure repository
         shell: bash
         run: ./configure.sh --skip-map-download
