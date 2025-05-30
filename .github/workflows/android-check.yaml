@@ -41,8 +41,8 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
-          repository: comaps/comaps
-          ref: main
+          repository: Jean-BaptisteC/comaps
+          ref: rtl
           fetch-depth: 200
 
       - name: Configure repository
