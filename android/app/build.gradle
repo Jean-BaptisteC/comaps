@@ -88,7 +88,7 @@ android {
     buildConfigField 'String', 'SUPPORT_MAIL', '"android@comaps.app"'
     // Should be customized in flavors.
     buildConfigField 'String', 'REVIEW_URL', '""'
-    resourceConfigurations += [project.ext.supportedLocalizations]
+    androidResources.localeFilters += [project.ext.supportedLocalizations]
 
     externalNativeBuild {
       def pchFlag = 'OFF'
@@ -356,7 +356,6 @@ dependencies {
   androidTestImplementation libs.androidx.test.junit
   testImplementation libs.junit
   testImplementation libs.mockito.core
-  testImplementation libs.mockito.inline
 }
 
 tasks.withType(JavaCompile) {
