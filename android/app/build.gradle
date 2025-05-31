@@ -88,9 +88,7 @@ android {
     buildConfigField 'String', 'SUPPORT_MAIL', '"android@comaps.app"'
     // Should be customized in flavors.
     buildConfigField 'String', 'REVIEW_URL', '""'
-    androidResources {
-      localeFilters += localeFilters += [project.ext.supportedLocalizations]
-    }
+    resourceConfigurations += [project.ext.supportedLocalizations]
 
     externalNativeBuild {
       def pchFlag = 'OFF'
