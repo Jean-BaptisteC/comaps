@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Jean-BaptisteC/comaps
-          ref: chart
+          ref: link
           fetch-depth: 200
 
       - name: Configure repository
