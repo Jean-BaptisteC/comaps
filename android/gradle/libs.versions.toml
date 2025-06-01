@@ -6,10 +6,10 @@ androidxCarApp = "1.7.0-rc01"
 android-tools = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 triplet-play-publisher = { module = "com.github.triplet.gradle:play-publisher", version = "3.12.1" }
 huawei-publish = { module = "ru.cian:huawei-publish-gradle-plugin", version = "1.4.2" }
-android-tools-desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.4" }
+android-tools-desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 microg-services-location = { module = "org.microg.gms:play-services-location", version = "0.3.6.244735" }
 androidx-core = { module = "androidx.core:core", version = "1.16.0" }
-jetbrains-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version = "2.1.21" }
+jetbrains-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version = "2.1.10" }
 androidx-annotation = { module = "androidx.annotation:annotation", version = "1.9.1" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
 androidx-car-app = { module = "androidx.car.app:app", version.ref = "androidxCarApp" }
