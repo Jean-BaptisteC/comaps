@@ -301,7 +301,7 @@ android {
   androidResources {
     ignoreAssetsPattern '!.svn:!.git:!.DS_Store:!*.scc:.*:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~'
     noCompress = ['txt', 'bin', 'html', 'png', 'json', 'mwm', 'ttf', 'sdf', 'ui', 'config', 'csv', 'spv', 'obj']
-    localeFilters += [project.ext.supportedLocalizations]
+    localeFilters += listOf("af","ar","az","be","bg","ca","cs","da","de","el","en","en_rGB","es","es_rMX","et","eu","fa","fi","fr","fr_rCA","iw","hi","hu","in","it","ja","ko","lt","lv","mr","mt","nb","nl","pl","pt","pt_rBR","ro","ru","sk","sr","sv","sw","th","tr","uk","vi","zh","zh_rHK","zh_rMO","zh_rTW")
   }
 
   compileOptions {
