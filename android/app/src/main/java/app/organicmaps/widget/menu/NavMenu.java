@@ -262,7 +262,7 @@ public class NavMenu
   public void update(@NonNull RoutingInfo info)
   {
     // Hide/show & update controls based on routing session state.
-    if (info.routingSessionState == RoutingSessionState.OnRoute)
+    if (RoutingSessionState.isNavigable(info.routingSessionState))
     {
       // Show & update time info.
       UiUtils.show(mTimeValuesContainer);
