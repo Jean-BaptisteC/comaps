@@ -42,6 +42,15 @@ public final class RoutingInfo
         default -> NoValidRoute;
       };
     }
+
+    public static boolean isNavigable(RoutingSessionState state)
+    {
+      return switch (state)
+      {
+        case RouteNotStarted, OnRoute, RouteFinished -> true;
+        default -> false;
+      };
+    }
   }
 
   // Target (end point of route).
