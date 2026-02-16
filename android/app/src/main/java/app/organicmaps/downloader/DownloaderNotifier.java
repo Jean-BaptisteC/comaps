@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import app.organicmaps.MwmActivity;
 import app.organicmaps.R;
 import app.organicmaps.sdk.downloader.MapManager;
-import app.organicmaps.sdk.util.StringUtils;
 import app.organicmaps.sdk.util.log.Logger;
 import java.util.Objects;
 
@@ -61,9 +59,8 @@ public class DownloaderNotifier
       return;
     }
 
-    final String title = mContext.getString(R.string.country_status_download_failed);
     final String countryName = MapManager.nativeGetName(countryId);
-    final String content = mContext.getString(R.string.download_country_failed, countryName);
+    final String title = mContext.getString(R.string.download_country_failed, countryName);
 
     final Notification notification = new NotificationCompat.Builder(mContext, CHANNEL_ID)
                                           .setAutoCancel(true)
@@ -72,9 +69,8 @@ public class DownloaderNotifier
                                           .setSmallIcon(R.drawable.ic_logo_small)
                                           .setColor(ContextCompat.getColor(mContext, R.color.notification))
                                           .setContentTitle(title)
-                                          .setContentText(content)
                                           .setShowWhen(true)
-                                          .setTicker(getTicker(mContext, title, content))
+                                          .setTicker(title)
                                           .setContentIntent(getNotificationPendingIntent(countryId))
                                           .setOnlyAlertOnce(true)
                                           .build();
@@ -159,13 +155,5 @@ public class DownloaderNotifier
     final Intent contentIntent = MwmActivity.createShowMapIntent(mContext, countryId);
     contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     return PendingIntent.getActivity(mContext, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE);
-  }
-
-  @NonNull
-  private static CharSequence getTicker(@NonNull Context context, @NonNull String title, @NonNull String content)
-  {
-    @StringRes
-    final int templateResId = StringUtils.isRtl() ? R.string.notification_ticker_rtl : R.string.notification_ticker_ltr;
-    return context.getString(templateResId, title, content);
   }
 }
