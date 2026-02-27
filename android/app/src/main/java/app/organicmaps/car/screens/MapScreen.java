@@ -5,11 +5,11 @@ import androidx.car.app.CarContext;
 import androidx.car.app.model.Action;
 import androidx.car.app.model.ActionStrip;
 import androidx.car.app.model.CarIcon;
-import androidx.car.app.model.GridItem;
-import androidx.car.app.model.GridTemplate;
 import androidx.car.app.model.Header;
 import androidx.car.app.model.Item;
 import androidx.car.app.model.ItemList;
+import androidx.car.app.model.ListTemplate;
+import androidx.car.app.model.Row;
 import androidx.car.app.model.Template;
 import androidx.car.app.navigation.model.MapWithContentTemplate;
 import androidx.core.graphics.drawable.IconCompat;
@@ -38,7 +38,7 @@ public class MapScreen extends BaseMapScreen
     final MapWithContentTemplate.Builder builder = new MapWithContentTemplate.Builder();
     builder.setMapController(UiHelpers.createMapController(getCarContext(), getSurfaceRenderer()));
     builder.setActionStrip(createActionStrip());
-    builder.setContentTemplate(createGridTemplate());
+    builder.setContentTemplate(createListTemplate());
     return builder.build();
   }
 
@@ -62,13 +62,14 @@ public class MapScreen extends BaseMapScreen
 
     final ActionStrip.Builder builder = new ActionStrip.Builder();
     builder.addAction(freeDriveScreenBuilder.build());
+    builder.addAction(UiHelpers.createSettingsAction(this, getSurfaceRenderer()));
     return builder.build();
   }
 
   @NonNull
-  private GridTemplate createGridTemplate()
+  private ListTemplate createListTemplate()
   {
-    final GridTemplate.Builder builder = new GridTemplate.Builder();
+    final ListTemplate.Builder builder = new ListTemplate.Builder();
 
     final ItemList.Builder itemsBuilder = new ItemList.Builder();
     itemsBuilder.addItem(createSearchItem());
@@ -87,7 +88,7 @@ public class MapScreen extends BaseMapScreen
     final CarIcon iconSearch =
         new CarIcon.Builder(IconCompat.createWithResource(getCarContext(), R.drawable.ic_search)).build();
 
-    final GridItem.Builder builder = new GridItem.Builder();
+    final Row.Builder builder = new Row.Builder();
     builder.setTitle(getCarContext().getString(R.string.search));
     builder.setImage(iconSearch);
     builder.setOnClickListener(this::openSearch);
@@ -100,7 +101,7 @@ public class MapScreen extends BaseMapScreen
     final CarIcon iconCategories =
         new CarIcon.Builder(IconCompat.createWithResource(getCarContext(), R.drawable.ic_address)).build();
 
-    final GridItem.Builder builder = new GridItem.Builder();
+    final Row.Builder builder = new Row.Builder();
     builder.setImage(iconCategories);
     builder.setTitle(getCarContext().getString(R.string.categories));
     builder.setOnClickListener(this::openCategories);
@@ -113,7 +114,7 @@ public class MapScreen extends BaseMapScreen
     final CarIcon iconBookmarks =
         new CarIcon.Builder(IconCompat.createWithResource(getCarContext(), R.drawable.ic_bookmarks)).build();
 
-    final GridItem.Builder builder = new GridItem.Builder();
+    final Row.Builder builder = new Row.Builder();
     builder.setImage(iconBookmarks);
     builder.setTitle(getCarContext().getString(R.string.bookmarks));
     builder.setOnClickListener(this::openBookmarks);
@@ -126,7 +127,7 @@ public class MapScreen extends BaseMapScreen
     final CarIcon iconSettings =
         new CarIcon.Builder(IconCompat.createWithResource(getCarContext(), R.drawable.ic_settings)).build();
 
-    final GridItem.Builder builder = new GridItem.Builder();
+    final Row.Builder builder = new Row.Builder();
     builder.setImage(iconSettings);
     builder.setTitle(getCarContext().getString(R.string.settings));
     builder.setOnClickListener(this::openSettings);
