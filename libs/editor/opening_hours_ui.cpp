@@ -123,7 +123,7 @@ namespace ui
 TimeTable TimeTable::GetPredefinedTimeTable()
 {
   TimeTable tt;
-  tt.m_isTwentyFourHours = true;
+  tt.m_isTwentyFourHours = false;
   tt.m_weekdays = {osmoh::Weekday::Sunday,   osmoh::Weekday::Monday, osmoh::Weekday::Tuesday, osmoh::Weekday::Wednesday,
                    osmoh::Weekday::Thursday, osmoh::Weekday::Friday, osmoh::Weekday::Saturday};
 
@@ -296,11 +296,8 @@ OpeningDays TimeTableSet::GetUnhandledDays() const
 TimeTable TimeTableSet::GetComplementTimeTable() const
 {
   TimeTable tt = TimeTable::GetUninitializedTimeTable();
-  // Set predefined opening time before set 24 hours, otherwise
-  // it has no effect.
   tt.SetTwentyFourHours(false);
   tt.SetOpeningTime(tt.GetPredefinedOpeningTime());
-  tt.SetTwentyFourHours(true);
   tt.SetOpeningDays(GetUnhandledDays());
   return tt;
 }
