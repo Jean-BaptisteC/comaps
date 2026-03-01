@@ -99,7 +99,7 @@ public class TimeFormatUtils
       else if (tt.closedTimespans == null || tt.closedTimespans.length == 0)
         ssb.append(dailyStr).append("\n").append(tt.workingTimespan.toWideString());
       else
-        ssb.append(dailyStr).append("\n").append(getOpeningHours(tt));
+        ssb.append(dailyStr).append("\n").append(String.join("\n", getShiftStrings(tt)));
 
       ssb.setSpan(new StyleSpan(Typeface.BOLD), 0, dailyStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
       return ssb;
@@ -125,13 +125,13 @@ public class TimeFormatUtils
       {
         openTime = resources.getString(R.string.editor_time_allday);
       }
-      else if (tt.closedTimespans.length == 0)
+      else if (tt.closedTimespans == null || tt.closedTimespans.length == 0)
       {
         openTime = tt.workingTimespan.toWideString();
       }
       else
       {
-        openTime = getOpeningHours(tt);
+        openTime = String.join("\n", getShiftStrings(tt));
       }
 
       int weekdaysStart = currentOffset;
@@ -147,22 +147,15 @@ public class TimeFormatUtils
 
     return weekSchedule;
   }
-
-  public static String getOpeningHours(Timetable tt)
+  public static String[] getShiftStrings(Timetable tt)
   {
-    StringBuilder openings = new StringBuilder();
-    openings.append(tt.workingTimespan.start).append(" – ").append(tt.closedTimespans[0].start);
-
+    if (tt.closedTimespans == null || tt.closedTimespans.length == 0)
+      return new String[]{tt.workingTimespan.toWideString()};
+    String[] shifts = new String[tt.closedTimespans.length + 1];
+    shifts[0] = tt.workingTimespan.start + "—" + tt.closedTimespans[0].start;
     for (int i = 0; i < tt.closedTimespans.length - 1; i++)
-    {
-      openings.append("\n").append(tt.closedTimespans[i].end).append(" – ").append(tt.closedTimespans[i + 1].start);
-    }
-
-    openings.append("\n")
-        .append(tt.closedTimespans[tt.closedTimespans.length - 1].end)
-        .append(" – ")
-        .append(tt.workingTimespan.end);
-
-    return openings.toString();
+      shifts[i + 1] = tt.closedTimespans[i].end + "—" + tt.closedTimespans[i + 1].start;
+    shifts[tt.closedTimespans.length] = tt.closedTimespans[tt.closedTimespans.length - 1].end + "—" + tt.workingTimespan.end;
+    return shifts;
   }
 }
