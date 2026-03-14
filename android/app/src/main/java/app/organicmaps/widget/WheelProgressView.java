@@ -2,14 +2,12 @@ package app.organicmaps.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import androidx.annotation.NonNull;
@@ -91,10 +89,10 @@ public class WheelProgressView extends AppCompatImageView
   private static Drawable makeCenterDrawable(@NonNull Context context)
   {
     Drawable normalDrawable =
-        ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_close_spinner, context.getTheme());
+        ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_close, context.getTheme());
     Drawable wrapped = DrawableCompat.wrap(normalDrawable);
     DrawableCompat.setTint(wrapped.mutate(), ThemeUtils.getColor(context, R.attr.iconTint));
-    return normalDrawable;
+    return wrapped;
   }
 
   public void setProgress(int progress)
@@ -116,16 +114,13 @@ public class WheelProgressView extends AppCompatImageView
     mRadius = (Math.min(width, height) - mStrokeWidth) / 2;
     mCenter.set(left + width / 2, top + height / 2);
     mProgressRect.set(mCenter.x - mRadius, mCenter.y - mRadius, mCenter.x + mRadius, mCenter.y + mRadius);
-
-    if (mCenterDrawable instanceof BitmapDrawable)
-    {
-      Bitmap bmp = ((BitmapDrawable) mCenterDrawable).getBitmap();
-      int halfw = bmp.getWidth() / 2;
-      int halfh = bmp.getHeight() / 2;
-      mCenterDrawable.setBounds(mCenter.x - halfw, mCenter.y - halfh, mCenter.x + halfw, mCenter.y + halfh);
-    }
-    else
-      mCenterRect.set(mProgressRect);
+    int half = mRadius / 2;
+    mCenterDrawable.setBounds(
+            mCenter.x - half,
+            mCenter.y - half,
+            mCenter.x + half,
+            mCenter.y + half
+    );
 
     mIsInit = true;
   }
