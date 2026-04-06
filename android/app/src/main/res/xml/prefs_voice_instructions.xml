@@ -25,6 +25,7 @@
       android:key="@string/pref_tts_volume"
       app:isPreferenceVisible="false"
       android:title="@string/volume"
+      app:layout="@layout/preference_slider"
       app:iconSpaceReserved="false"/>
   <Preference
       android:key="@string/pref_tts_test_voice"
