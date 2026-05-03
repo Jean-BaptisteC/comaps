@@ -1,6 +1,7 @@
 package app.organicmaps.search;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
     SearchRecents.refresh();
     mSearchToolbarController = searchToolbarController;
     mShowMyPosition = showMyPosition;
-    this.mContactPickerLauncher = launcher;
+    mContactPickerLauncher = launcher;
   }
 
   @Override
@@ -57,7 +58,11 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
     case TYPE_ITEM:
       res = new ViewHolder(
           LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_recent, viewGroup, false));
-      res.mText.setOnClickListener(v -> mSearchToolbarController.setQuery(res.mText.getText()));
+      res.mText.setOnClickListener(v -> {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_TYPE);
+        mContactPickerLauncher.launch(intent);
+      });
       break;
 
     case TYPE_CLEAR:
@@ -68,16 +73,16 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
         notifyDataSetChanged();
       });
       break;
-      case TYPE_CONTACT:
-        res = new ViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_my_position, viewGroup, false));
 
-        res.mText.setOnClickListener(v -> {
-          Intent intent = new Intent(Intent.ACTION_PICK);
-          intent.setType(android.provider.ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_TYPE);
-          mContactPickerLauncher.launch(intent);
-        });
-        break;
+    case TYPE_MY_POSITION:
+      res = new ViewHolder(
+          LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_my_position, viewGroup, false));
+      res.mText.setOnClickListener(v -> {
+        RoutingController.get().onPoiSelected(
+            MwmApplication.from(viewGroup.getContext()).getLocationHelper().getMyPosition());
+        mSearchToolbarController.onUpClick();
+      });
+      break;
 
     default: throw new IllegalArgumentException("Unsupported ViewHolder type given");
     }
