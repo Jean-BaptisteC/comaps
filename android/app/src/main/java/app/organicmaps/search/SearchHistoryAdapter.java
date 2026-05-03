@@ -1,8 +1,10 @@
 package app.organicmaps.search;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import app.organicmaps.MwmApplication;
@@ -18,6 +20,8 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
   private static final int TYPE_ITEM = 0;
   private static final int TYPE_CLEAR = 1;
   private static final int TYPE_MY_POSITION = 2;
+  private static final int TYPE_CONTACT = 3;
+  private final ActivityResultLauncher<Intent> mContactPickerLauncher;
 
   @NonNull
   private final SearchToolbarController mSearchToolbarController;
@@ -35,11 +39,12 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
     }
   }
 
-  public SearchHistoryAdapter(@NonNull SearchToolbarController searchToolbarController, boolean showMyPosition)
+  public SearchHistoryAdapter(@NonNull SearchToolbarController searchToolbarController, boolean showMyPosition, ActivityResultLauncher<Intent> launcher)
   {
     SearchRecents.refresh();
     mSearchToolbarController = searchToolbarController;
     mShowMyPosition = showMyPosition;
+    this.mContactPickerLauncher = launcher;
   }
 
   @Override
@@ -63,16 +68,16 @@ class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.Vie
         notifyDataSetChanged();
       });
       break;
+      case TYPE_CONTACT:
+        res = new ViewHolder(
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_my_position, viewGroup, false));
 
-    case TYPE_MY_POSITION:
-      res = new ViewHolder(
-          LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_my_position, viewGroup, false));
-      res.mText.setOnClickListener(v -> {
-        RoutingController.get().onPoiSelected(
-            MwmApplication.from(viewGroup.getContext()).getLocationHelper().getMyPosition());
-        mSearchToolbarController.onUpClick();
-      });
-      break;
+        res.mText.setOnClickListener(v -> {
+          Intent intent = new Intent(Intent.ACTION_PICK);
+          intent.setType(android.provider.ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_TYPE);
+          mContactPickerLauncher.launch(intent);
+        });
+        break;
 
     default: throw new IllegalArgumentException("Unsupported ViewHolder type given");
     }
