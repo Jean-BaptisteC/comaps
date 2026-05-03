@@ -1,7 +1,10 @@
 package app.organicmaps.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +27,26 @@ public class SearchHistoryFragment extends BaseMwmRecyclerFragment<SearchHistory
     UiUtils.showIf(getAdapter().getItemCount() == 0, mPlaceHolder);
   }
 
+  private final ActivityResultLauncher<Intent> mContactPickerLauncher = registerForActivityResult(
+          new ActivityResultContracts.StartActivityForResult(),
+          result -> {
+            if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+              handleContactResults(result.getData().getData());
+            }
+          }
+  );
+
+  private void handleContactResults(android.net.Uri contactUri) {
+    String[] projection = {android.provider.ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS};
+    try (android.database.Cursor cursor = requireContext().getContentResolver().query(contactUri, projection, null, null, null)) {
+      if (cursor != null && cursor.moveToFirst()) {
+        String address = cursor.getString(0);
+        SearchToolbarController controller = ((SearchFragment) requireParentFragment()).requireController();
+        controller.setQuery(address);
+      }
+    }
+  }
+
   @NonNull
   @Override
   protected SearchHistoryAdapter createAdapter()
@@ -32,7 +55,7 @@ public class SearchHistoryFragment extends BaseMwmRecyclerFragment<SearchHistory
     final boolean showMyPosition =
         (RoutingController.get().isWaitingPoiPick()
          && MwmApplication.from(requireContext()).getLocationHelper().getMyPosition() != null);
-    return new SearchHistoryAdapter(controller, showMyPosition);
+    return new SearchHistoryAdapter(controller, showMyPosition, mContactPickerLauncher);
   }
 
   @Override
